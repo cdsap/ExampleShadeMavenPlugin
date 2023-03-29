@@ -1,0 +1,20 @@
+<gradleEnterprise>
+    <server>
+        <url>https://ge.solutions-team.gradle.com</url>
+    </server>
+    <buildScan>
+        <!-- Behavior of publishing build scans. Possible values are ALWAYS, ON_FAILURE, ON_DEMAND. Defaults to ALWAYS. The 'scan' system property can be used to publish on demand. -->
+        <publish>ALWAYS</publish>
+        <capture>                                           <!-- For extension >= 1.11 -->
+            <goalInputFiles>true</goalInputFiles>
+        </capture>
+        <!-- Terms of service acceptance (mandatory to publish to scans.gradle.com) -->
+    </buildScan>
+    <buildCache>
+        <!-- Local cache configuration -->
+        <local>
+            <!-- Whether the local cache is enabled. Defaults to true. System property is 'gradle.cache.local.enabled'. -->
+            <enabled>true</enabled>
+        </local>
+    </buildCache>
+</gradleEnterprise>
