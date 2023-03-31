@@ -12,6 +12,14 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.2</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -32,12 +40,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <transformers>
-                                <transformer
-                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>io.github.cdsap.App</mainClass>
-                                </transformer>
-                            </transformers>
                             <artifactSet>
                                 <includes>
                                     <include>*</include>
@@ -54,7 +56,6 @@
                 <plugin>
                     <groupId>com.gradle</groupId>
                     <artifactId>gradle-enterprise-maven-extension</artifactId>
-
                     <configuration>
                         <gradleEnterprise>
                             <plugins>
@@ -64,13 +65,24 @@
                                     <inputs>
                                         <fileSets>
                                             <fileSet>
+                                                <name>mainArtifact</name>
+                                                <paths>
+                                                    <path>target/maven-shade-1.0.jar</path>
+                                                </paths>
+                                                <normalization>CLASSPATH</normalization>
+                                            </fileSet>
+                                            <fileSet>
                                                 <name>dependencyReducedPomLocation</name>
                                             </fileSet>
                                         </fileSets>
                                         <properties>
                                             <property>
+                                                <name>outputFile</name>
+                                            </property>
+                                            <property>
                                                 <name>createDependencyReducedPom</name>
                                             </property>
+
                                             <property>
                                                 <name>keepDependenciesWithProvidedScope</name>
                                             </property>
@@ -122,13 +134,8 @@
                                             <property>
                                                 <name>useDependencyReducedPomInJar</name>
                                             </property>
-                                            <property>
-                                                <name>outputFile</name>
-                                            </property>
                                         </properties>
-                                        <!-- artifactSet, filters, , outputDirectory,
-                                        outputFile, relocations, , transformers
-                                        -->
+
                                         <ignoredProperties>
                                             <ignore>project</ignore>
                                             <ignore>session</ignore>
@@ -141,6 +148,7 @@
                                         <property>
                                             <name>artifactSet</name>
                                         </property>
+
                                         <property>
                                             <name>filters</name>
                                         </property>
@@ -148,6 +156,7 @@
                                             <name>transformers</name>
                                         </property>
                                     </nestedProperties>
+
                                     <outputs>
                                         <directories>
                                             <directory>
@@ -157,133 +166,6 @@
                                         <cacheableBecause>check should only run when inputs change
                                         </cacheableBecause>
                                     </outputs>
-                                </plugin>
-                                <plugin>
-                                    <groupId>com.diffplug.spotless</groupId>
-                                    <artifactId>spotless-maven-plugin</artifactId>
-
-                                    <inputs>
-                                        <fileSets>
-                                            <fileSet>
-                                                <name>baseDir</name>
-                                                <excludes>
-                                                    <exclude>.idea/*</exclude>
-                                                    <exclude>target/*</exclude>
-                                                </excludes>
-                                            </fileSet>
-                                        </fileSets>
-                                        <properties>
-                                            <property>
-                                                <name>applySkip</name>
-                                            </property>
-                                            <property>
-                                                <name>encoding</name>
-                                            </property>
-                                            <property>
-                                                <name>checkSkip</name>
-                                            </property>
-                                            <property>
-                                                <name>filePatterns</name>
-                                            </property>
-                                            <property>
-                                                <name>formats</name>
-                                            </property>
-                                            <property>
-                                                <name>goal</name>
-                                            </property>
-                                            <property>
-                                                <name>setLicenseHeaderYearsFromGitHistory</name>
-                                            </property>
-                                            <property>
-                                                <name>skip</name>
-                                            </property>
-                                            <property>
-                                                <name>ratchetFrom</name>
-                                            </property>
-                                        </properties>
-                                        <ignoredProperties>
-                                            <ignore>repositorySystemSession</ignore>
-                                            <ignore>repositories</ignore>
-                                            <ignore>project</ignore>
-                                            <ignore>lineEndings</ignore>
-                                        </ignoredProperties>
-                                    </inputs>
-                                    <nestedProperties>
-                                        <property>
-                                            <name>upToDateChecking</name>
-                                        </property>
-                                        <property>
-                                            <name>java</name>
-                                        </property>
-                                        <property>
-                                            <name>python</name>
-                                        </property>
-                                        <property>
-                                            <name>scala</name>
-                                        </property>
-                                        <property>
-                                            <name>groovy</name>
-                                        </property>
-                                        <property>
-                                            <name>javascript</name>
-                                        </property>
-                                        <property>
-                                            <name>json</name>
-                                        </property>
-                                        <property>
-                                            <name>kotlin</name>
-                                        </property>
-                                        <property>
-                                            <name>cpp</name>
-                                        </property>
-                                        <property>
-                                            <name>antlr4</name>
-                                        </property>
-                                        <property>
-                                            <name>sql</name>
-                                        </property>
-                                        <property>
-                                            <name>typescript</name>
-                                        </property>
-                                        <property>
-                                            <name>yaml</name>
-                                        </property>
-                                        <property>
-                                            <name>pom</name>
-                                        </property>
-                                        <property>
-                                            <name>markdown</name>
-                                        </property>
-                                        <property>
-                                            <name>licenseHeader</name>
-                                            <inputs>
-                                                <properties>
-                                                    <property>
-                                                        <name>file</name>
-                                                    </property>
-                                                    <property>
-                                                        <name>content</name>
-                                                    </property>
-                                                    <property>
-                                                        <name>delimiter</name>
-                                                    </property>
-                                                    <property>
-                                                        <name>skipLinesMatching</name>
-                                                    </property>
-                                                </properties>
-                                            </inputs>
-                                        </property>
-                                    </nestedProperties>
-                                    <outputs>
-                                        <directories>
-                                            <directory>
-                                                <name>buildDir</name>
-                                            </directory>
-                                        </directories>
-                                        <cacheableBecause>check should only run when inputs change
-                                        </cacheableBecause>
-                                    </outputs>
-
                                 </plugin>
                             </plugins>
                         </gradleEnterprise>
