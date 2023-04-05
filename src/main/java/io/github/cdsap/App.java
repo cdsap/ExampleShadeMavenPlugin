@@ -8,6 +8,6 @@ public class App {
 
   public static void main(String[] args) {
     System.out.println(myConst);
-    System.out.println("Please " + "" + "fiwx" + " me :)");
+    System.out.println("Please " + "" + "fix" + " me :)");
   }
 }
