@@ -27,7 +27,26 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
             </plugin>
-
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.name}-${project.version}.jar</file>
+                                    <classifier>shaded</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -66,7 +85,9 @@
                                             <fileSet>
                                                 <name>mainArtifact</name>
                                                 <paths>
-                                                    <path>target/maven-shade-1.0.jar</path>
+                                                    <path>
+                                                        ${project.build.directory}/${project.name}-${project.version}.jar
+                                                    </path>
                                                 </paths>
                                                 <normalization>CLASSPATH</normalization>
                                             </fileSet>
