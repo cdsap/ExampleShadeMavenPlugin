@@ -1,4 +1,4 @@
-## Example Maven Shade Plugin
+## Example Maven Shade Plugin cacheable
 Repository with the configuration required to make the goal shade cacheable
 
 ### Usage
